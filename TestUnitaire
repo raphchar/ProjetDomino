@@ -1,0 +1,86 @@
+"""
+
+                PROJET INFORMATIQUE - ENSTA BRETAGNE
+                                FISE 2021
+
+                  ©Raphaël CHARRON & Maxime VINSOT
+
+
+
+    Jeu de domino - classe Partie
+
+Fichiet Unitaire du jeu de domino, ce fichier contient les tests unitaire de notre projet de jeu de Domino.
+
+"""
+
+
+
+
+import unittest
+from Main import *
+from Domino import Domino
+from Pioche import Pioche
+from MainJoueur import Main
+from Plateau import Plateau
+from Partie import Partie
+from PartieIA import PartieIA
+
+
+
+class Testdomino(unittest.TestCase):
+    """ Cette classe va effectuer des tests sur notre classe domino."""
+
+    # def setUp(self):
+    #     """Méthode d'initialisation appelér avant chaque test"""
+    #     pass
+
+    def testInitialisation(self):
+        """ Cette méthode va effectuer un test d'initialisation sur les dominos ."""
+        for i in range(7):
+            for j in range(7):
+                domino = Domino(i,j)                        # On crée le domino
+                self.assertEqual(domino.chiffre1,i)         # On test si le chiffre de gauche du domino est égale à i
+                self.assertEqual(domino.chiffre2,j)         # On test si le chiffre de droite du domino est égale à j
+
+    def testComparaison(self):
+        """ Cette méthode va effectuer un test de compararison entre les dominos. """
+        for i in range(7):
+            for j in range(7):
+                domino1 = Domino(i,j)                       # On crée le premier domino
+                domino2 = Domino(i+1,j)                     # On crée le deuxième domino
+                self.assertTrue(domino1 < domino2)          # On vérifie que la méthode __gt__ fonctionne correctement
+
+    def testValeur_totale(self):
+        """ Cette méthode va tester la somme totale des dominos. """
+        for i in range(7):
+            for j in range(7):
+                valeur_totale = Domino(i,j).somme_chiffres()            # On crée le domino et on ajoute sa valeur totale dans une variable
+                self.assertEqual(valeur_totale,i+j)                     # On vérifie que la valeur totale vaut bien i+j
+
+    def testInvertion(self):
+        """ Cette méthode va tester si l'inversion d'un domino se produit correctement. """
+        for i in range(7):
+            for j in range(7):
+                domino = Domino(i,j)                                            # On crée le domino
+                domino_inverse = domino.inverser()                              # On inverse se domino
+                self.assertEqual(domino.chiffre1,domino_inverse.chiffre2)       # On vérifie les premières valeur des demi-dominos
+                self.assertEqual(domino.chiffre2,domino_inverse.chiffre1)       # On vérifie les aitres valeurs
+
+    def testListeValeur(self):
+        """ Cette méthode va tester le bon fonctionnement de la méthode liste_valeur. """
+        for i in range(7):
+            for j in range(7):
+                liste_valeur = Domino(i,j).liste_valeurs()                  # On crée la liste des valeur du domino
+                self.assertIn(i,liste_valeur)                               # On vérifie que le premier élément est dans la liste
+                self.assertIn(j,liste_valeur)                               # On vérifie que le deuxième élément est dans la liste
+
+
+
+class TestPioche(unittest.TestCase):
+    """ Cette classe va effectuer des tests sur notre classe pioche. """
+
+
+
+
+if __name__ == '__main__':
+    unittest.main()
